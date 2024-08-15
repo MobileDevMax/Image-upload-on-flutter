@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Image Upload',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: ImageUploadPage(),
+    );
+  }
+}
+
+class ImageUploadPage extends StatefulWidget {
+  @override
+  _ImageUploadPageState createState() => _ImageUploadPageState();
+}
+
+class _ImageUploadPageState extends State<ImageUploadPage> {
+  final TextEditingController _urlController = TextEditingController();
+  String? _imageUrl;
+
+  void _submitUrl() {
+    setState(() {
+      _imageUrl = _urlController.text;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Image upload'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (_imageUrl != null)
+              Image.network(
+                _imageUrl!,
+                height: 400,
+                width: 600,
+                fit: BoxFit.cover,
+              )
+            else
+              Text('Please enter URL image'),
+            SizedBox(height: 20),
+            TextField(
+              controller: _urlController,
+              decoration: InputDecoration(
+                labelText: 'URL image',
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _submitUrl,
+              child: Text('Upload image'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
